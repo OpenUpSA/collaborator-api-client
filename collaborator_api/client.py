@@ -81,8 +81,8 @@ class Client:
 
     def get_task(self):
         objData = {
-            template_id: 10,
-            obj_id: 1671,
+            template_id: 9,
+            obj_id: 1,
             Fields: [
             ],
-        };
+        }
