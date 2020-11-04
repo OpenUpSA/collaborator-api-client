@@ -23,6 +23,7 @@ class Client:
         self.username = username
         self.password = password
         self.token = None
+        self.session = requests.Session()
 
     def authenticate(self):
         url = "https://api.collaboratoronline.com/webAPIConsumer/api/MobileToken/GetTokenForUser"
@@ -69,7 +70,10 @@ class Client:
             "deviceId":  "COMUNITY",
             "appVersion": "1.1.6",
         }
-        result = requests.post(url, headers=request_headers, json=request_data)
+        request = requests.Request("POST", url, headers=request_headers, json=request_data)
+        prepared_request = request.prepare()
+        pretty_print_POST(prepared_request)
+        result = self.session.send(prepared_request)
 
         # returns 401 when auth header not provided.
         # Returns 500 for some error with text {"Message":"An error has occurred."}
@@ -86,3 +90,21 @@ class Client:
             Fields: [
             ],
         }
+
+def pretty_print_POST(req):
+    """
+    At this point it is completely built and ready
+    to be fired; it is "prepared".
+
+    However pay attention at the formatting used in
+    this function because it is programmed to be pretty
+    printed and may differ from the actual request.
+
+    https://stackoverflow.com/a/23816211
+    """
+    print('{}\n{}\r\n{}\r\n\r\n{}'.format(
+        '-----------START-----------',
+        req.method + ' ' + req.url,
+        '\r\n'.join('{}: {}'.format(k, v) for k, v in req.headers.items()),
+        req.body,
+    ))
