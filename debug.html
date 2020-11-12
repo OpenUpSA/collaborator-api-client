@@ -50,19 +50,18 @@
           FormFields: [
             { FieldID: "F1", FieldValue: "Roads"},
             { FieldID: "F2", FieldValue: "Mr Test"},
-            { FieldID: "F3", FieldValue: "User"},
+            { FieldID: "F3", FieldValue: "Surname"},
             { FieldID: "F4", FieldValue: "0792816737"},
             { FieldID: "F5", FieldValue: "user@example.com"},
-            { FieldID: "F6", FieldValue: "12345"},
             { FieldID: "F7", FieldValue: "Geen Straat"},
             { FieldID: "F8", FieldValue: "123"},
             { FieldID: "F9", FieldValue: "Daar"},
             { FieldID: "F10", FieldValue: "Iets is fout"},
             { FieldID: "F11", FieldValue: ""},
-            { FieldID: "F12", FieldValue: "12.3, 45.6"},
-            { FieldID: "F13", FieldValue: "2020-01-01"},
-            { FieldID: "F15", FieldValue: "Initial"},
-          ],
+            { FieldID: "F12", FieldValue: "2020-01-01"},
+            { FieldID: "F13", FieldValue: "12345"},
+            { FieldID: "F20", FieldValue: "WC033"}
+          ]
 
         };
 
@@ -85,6 +84,22 @@
         }).fail((something, sthelse) => console.error(something, sthelse));
       });
 
+      // Code 0 means success
+      // {
+      //   "Code": 0,
+      //   "Message": "Success",
+      //   "DetailedMessages": null,
+      //   "CollaboratorUri": "https://api.collaboratoronline.com/webAPIConsumer/api",
+      //   "Data": {
+      //     "TaskID": 4215,
+      //     "ObjID": 552582,
+      //     "ObjName": "",
+      //     "Bus_Proc_inst_Id": 3815,
+      //     "Bus_Process_Id": 3,
+      //     "TaskTitle": "New Service Request",
+      //     "TasksToAssign": []
+      //   }
+      // }
 
     </script>
   </body>
