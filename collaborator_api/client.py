@@ -16,6 +16,7 @@ code_table = {
     "mobile_reference": "F13",
     "on_premis_reference": "F14",
     "status": "F15",
+    "demarcation_code": "F20",
 }
 
 class Client:
