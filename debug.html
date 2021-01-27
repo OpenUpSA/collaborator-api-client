@@ -3,6 +3,8 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
   </head>
   <body>
+    <h1>Collaborator integration testing tool<h1>
+    <h2>Auth</h2>
     <p>
       Username: <input id="username" value="collabonline\openup" />
     </p>
@@ -15,8 +17,27 @@
     <p>
       Token: <textarea id="token"></textarea>
     </p>
+    <hr/>
+    <h2>Create ticket</h2>
     <p>
       <button id="create">Create ticket</button>
+    </p>
+    <p>
+      Create ticket response: <textarea id="create-response"></textarea>
+    </p>
+    <p>
+      Web API ticket reference: <input id="web-api-ticket-reference"></input>
+    </p>
+    <hr/>
+    <h2>Show ticket</h2>
+    <p>
+      <button id="fetch">Show ticket</button>
+    </p>
+    <p>
+      Show ticket response: <textarea id="fetch-response"></textarea>
+    </p>
+    <p>
+      End user ticket reference: <input id="end-user-ticket-reference"></input>
     </p>
     <script>
 
@@ -48,7 +69,7 @@
           PercentComplete: 100,
           Comments: "Feedback done from OpenUp",
           FormFields: [
-            { FieldID: "F1", FieldValue: "Roads"},
+            { FieldID: "F1", FieldValue: "Sewerage"},
             { FieldID: "F2", FieldValue: "Mr JD"},
             { FieldID: "F3", FieldValue: "Bothma"},
             { FieldID: "F4", FieldValue: "0792816737"},
@@ -56,9 +77,9 @@
             { FieldID: "F7", FieldValue: "Geen Straat"},
             { FieldID: "F8", FieldValue: "123"},
             { FieldID: "F9", FieldValue: "Daar"},
-            { FieldID: "F10", FieldValue: "Iets is fout"},
+            { FieldID: "F10", FieldValue: "This one has the date 2020-01-27 sent from the app"},
             { FieldID: "F11", FieldValue: "12.3, 45.6"},
-            { FieldID: "F12", FieldValue: "2020-01-01"},
+            { FieldID: "F12", FieldValue: "2020-01-27"},
             { FieldID: "F13", FieldValue: ""},
             { FieldID: "F20", FieldValue: "WC033"}
           ]
@@ -79,7 +100,8 @@
             "appVersion": "1.1.6"
           }
         }).done(function(something, sthelse) {
-          $("#token").val(something);
+          $("#create-response").val(JSON.stringify(something, null, 2));
+
           console.log(something, sthelse)
         }).fail((something, sthelse) => console.error(something, sthelse));
       });
@@ -100,6 +122,34 @@
       //     "TasksToAssign": []
       //   }
       // }
+
+    $("#fetch").on("click", function() {
+        var requestData = {
+          template_id: 10,
+          obj_id: $("#web-api-ticket-reference").val(),
+          Fields: [
+          ],
+        };
+
+        var myPromise = $.ajax({
+          type: "POST",
+          accepts: "application/json",
+          crossDomain: true,
+          dataType: "json",
+          data: requestData,
+          cache: false,
+          url: "https://api.collaboratoronline.com/webAPIConsumer/api/Objects/GetObject",
+          headers: {
+            "Authorization": `Bearer ${$("#token").val()}`,
+            "deviceId":  "COMUNITY",
+            "appVersion": "1.1.6"
+          }
+        }).done(function(something, sthelse) {
+          $("#fetch-response").val(JSON.stringify(something, null, 2));
+
+          console.log(something, sthelse)
+        }).fail((something, sthelse) => console.error(something, sthelse));
+      });
 
     </script>
   </body>
