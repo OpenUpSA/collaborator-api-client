@@ -19,6 +19,7 @@ code_table = {
     "demarcation_code": "F20",
 }
 
+
 class Client:
     def __init__(self, username, password):
         self.username = username
@@ -45,6 +46,7 @@ class Client:
         self.token = result.json()
 
     def new_task_feedback(self):
+        url = "https://api.collaboratoronline.com/webAPIConsumer/api/Task/SaveNewTaskFeedback"
         request_data = {
             "TemplateId": 9,
             "BPID": 3,
@@ -63,8 +65,7 @@ class Client:
                 { "FieldID": "F10", "FieldValue": "This is a test. If you see this, please email me."},
                 { "FieldID": "F12", "FieldValue": "2020-11-03"},
             ],
-        };
-        url = "https://api.collaboratoronline.com/webAPIConsumer/api/Task/SaveNewTaskFeedback"
+        }
         request_headers = {
             "accept": "application/json",
             "authorization": f"Bearer { self.token }",
@@ -83,14 +84,35 @@ class Client:
 
         print(result.json())
 
+    def get_task(self, obj_id: int, template_id: int = 9,  fields: list = None):
+        url = "https://api.collaboratoronline.com/webapi/api/Objects/GetObject"
+        if fields is None:
+            fields = []
+        if not self.token:
+            raise Exception("Auth Token not set. Did you login with authenticate()?")
 
-    def get_task(self):
-        objData = {
-            template_id: 9,
-            obj_id: 1,
-            Fields: [
-            ],
+        request_data = {
+            "template_id": template_id,  # 9
+            "obj_id": obj_id,  # 1?
+            "Fields": fields,
         }
+        request_headers = {
+            "accept": "application/json",
+            "authorization": f"Bearer {self.token}",
+            "deviceId": "COMUNITY",
+            "appVersion": "1.1.6",
+        }
+
+        request = requests.Request("POST", url, headers=request_headers, json=request_data)
+        prepared_request = request.prepare()
+        pretty_print_POST(prepared_request)
+        result = self.session.send(prepared_request)
+
+        # returns 401 when auth header not provided.
+        # Returns 500 for some error with text {"Message":"An error has occurred."}
+        print(result.text)
+        result.raise_for_status()
+        print(result.json())
 
 def pretty_print_POST(req):
     """
