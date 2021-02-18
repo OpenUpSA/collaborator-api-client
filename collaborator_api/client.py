@@ -28,7 +28,8 @@ class Client:
         self.session = requests.Session()
 
     def authenticate(self):
-        url = "https://api.collaboratoronline.com/webAPIConsumer/api/MobileToken/GetTokenForUser"
+        # url = "https://api.collaboratoronline.com/webAPIConsumer/api/MobileToken/GetTokenForUser"
+        url = "https://consumercollab.collaboratoronline.com/webAPI/api/MobileToken/GetTokenForUser"
         request_data = {
             "username": self.username,
             "password": self.password,
@@ -46,7 +47,7 @@ class Client:
         self.token = result.json()
 
     def new_task_feedback(self):
-        url = "https://api.collaboratoronline.com/webAPIConsumer/api/Task/SaveNewTaskFeedback"
+        url = "https://consumercollab.collaboratoronline.com/webAPIConsumer/api/Task/SaveNewTaskFeedback"
         request_data = {
             "TemplateId": 9,
             "BPID": 3,
@@ -85,7 +86,7 @@ class Client:
         print(result.json())
 
     def get_task(self, obj_id: int, template_id: int = 9,  fields: list = None):
-        url = "https://api.collaboratoronline.com/webapi/api/Objects/GetObject"
+        url = "https://consumercollab.collaboratoronline.com/webapi/api/Objects/GetObject"
         if fields is None:
             fields = []
         if not self.token:
