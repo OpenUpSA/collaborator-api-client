@@ -42,8 +42,8 @@ class Client:
         }
         result = requests.post(url, headers=request_headers, json=request_data)
         result.raise_for_status() # Watch out, they do return 200 for "Auth Failed"
-        if result.text == "Auth Failed":
-            raise Exception("Auth Failed")
+        if result.text == "\"Auth Failed\"":
+            raise Exception("Auth Failed :(")
         self.token = result.json()
 
     def new_task_feedback(self):
