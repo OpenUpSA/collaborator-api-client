@@ -121,7 +121,7 @@ class Client:
         request_data = {
             "taskID": 0,
             "uniqName": "get_single_service_request",
-            "InputValues": f"<valRoot><val`>{obj_id}</val></valRoot>"
+            "InputValues": f"<valRoot><val>{obj_id}</val></valRoot>"
         }
 
         request_headers = {
