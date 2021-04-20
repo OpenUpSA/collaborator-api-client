@@ -115,6 +115,40 @@ class Client:
         result.raise_for_status()
         print(result.json())
 
+    def get_task_with_attachments(self, obj_id: int):
+        url = "https://citizencollab.collaboratoronline.com/webAPI/api/Function/execFunction"
+
+        request_data = {
+            "taskID": 0,
+            "uniqName": "get_single_service_request",
+            "InputValues": f"<valRoot><val`>{obj_id}</val></valRoot>"
+        }
+
+        request_headers = {
+            "accept": "application/json",
+            "authorization": f"Bearer {self.token}",
+            "deviceId": "COMUNITY",
+            "appVersion": "1.1.6",
+        }
+
+        response = self.session.post(url, json=request_data, headers=request_headers)
+        return response
+
+    def get_attachment(self, obj_id: int, file_id: int):
+        request_headers = {
+            "accept": "application/json",
+            "authorization": f"Bearer {self.token}",
+            "deviceId": "COMUNITY",
+            "appVersion": "1.1.6",
+        }
+        response = self.session.get(
+            "https://citizencollab.collaboratoronline.com/webAPI/api/File/Get"
+            f"?objid={obj_id}&fileid={file_id}",
+            headers=request_headers
+        )
+        return response
+
+
 def pretty_print_POST(req):
     """
     At this point it is completely built and ready
